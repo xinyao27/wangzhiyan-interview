@@ -1,16 +1,7 @@
 import { drizzle } from "drizzle-orm/better-sqlite3";
-import Database from "better-sqlite3";
 
-// Database file path - using relative path
-const dbPath = "./sqlite.db";
-
-// Create database connection
-export const sqlite = new Database(dbPath);
+// Database file path
+const dbPath = process.env.DATABASE_URL || `${process.cwd()}/sqlite.db`;
 
 // Create drizzle instance
-export const db = drizzle(sqlite);
-
-// Function to close database connection
-export function closeDatabase() {
-  sqlite.close();
-}
+export const db = drizzle(dbPath);

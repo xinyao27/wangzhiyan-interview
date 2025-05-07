@@ -17,7 +17,7 @@ type ValidRole = "user" | "assistant" | "system";
 export const CONVERSATION_CREATED_EVENT = "conversation-created";
 export const CONVERSATION_UPDATED_EVENT = "conversation-updated";
 
-interface ChatWindowProps {
+export interface ChatWindowProps {
   conversationId?: string;
   initialMessages?: DbMessage[];
 }

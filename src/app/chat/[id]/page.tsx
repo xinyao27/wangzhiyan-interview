@@ -1,5 +1,4 @@
-import { Sidebar } from "@/components/sidebar/sidebar";
-import { ChatWindow } from "@/components/chat/chat-window";
+import { ChatLayout } from "@/components/chat/chat-layout";
 import { API_ROUTES } from "@/lib/constants";
 import { Message } from "@/lib/db/schema";
 import { buildApiUrl } from "@/lib/utils";
@@ -35,17 +34,5 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const { id } = await params;
   const messages = await getConversationMessages(id);
 
-  return (
-    <div className="flex h-screen bg-background overflow-hidden">
-      <Sidebar />
-      <main className="flex-1 flex flex-col">
-        <div className="p-4 border-b">
-          <h1 className="text-xl font-bold">Chat Conversation</h1>
-        </div>
-        <div className="flex-1 overflow-hidden">
-          <ChatWindow conversationId={id} initialMessages={messages} />
-        </div>
-      </main>
-    </div>
-  );
+  return <ChatLayout conversationId={id} initialMessages={messages} />;
 }
