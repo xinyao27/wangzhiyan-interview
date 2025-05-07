@@ -1,12 +1,13 @@
+import React from "react";
 import { ChatLayout } from "@/components/chat/chat-layout";
 import { API_ROUTES } from "@/lib/constants";
 import { Message } from "@/lib/db/schema";
 import { buildApiUrl } from "@/lib/utils";
 
 interface ChatPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 async function getConversationMessages(id: string): Promise<Message[]> {
