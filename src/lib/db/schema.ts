@@ -29,6 +29,7 @@ export const messages = sqliteTable("messages", {
     enum: ["user", "assistant", "system"],
   }).notNull(),
   content: text("content").notNull(),
+  imageUrl: text("image_url"),
   createdAt: integer("created_at", { mode: "timestamp" })
     .$defaultFn(() => new Date())
     .notNull(),

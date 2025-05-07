@@ -17,6 +17,13 @@ type ValidRole = "user" | "assistant" | "system";
 export const CONVERSATION_CREATED_EVENT = "conversation-created";
 export const CONVERSATION_UPDATED_EVENT = "conversation-updated";
 
+// Define extended message type for internal use
+interface MessageWithImage {
+  role: ValidRole;
+  content: string;
+  imageUrl?: string;
+}
+
 export interface ChatWindowProps {
   conversationId?: string;
   initialMessages?: DbMessage[];
@@ -46,6 +53,7 @@ export function ChatWindow({
       id: msg.id,
       role: role,
       content: msg.content,
+      imageUrl: msg.imageUrl,
     };
   });
 
@@ -127,6 +135,13 @@ export function ChatWindow({
                 dbRole = message.role;
               }
 
+              // Extract imageUrl from message if available
+              const imageUrl: string | null =
+                "imageUrl" in message
+                  ? ((message as { imageUrl?: string | null }).imageUrl ?? null)
+                  : initialMessages.find((m) => m.id === message.id)
+                      ?.imageUrl || null;
+
               return (
                 <ChatMessage
                   key={message.id}
@@ -134,6 +149,7 @@ export function ChatWindow({
                     id: message.id,
                     role: dbRole,
                     content: message.content,
+                    imageUrl: imageUrl,
                     conversationId: conversationId || generatedId.current,
                     createdAt: new Date(),
                   }}
@@ -158,11 +174,17 @@ export function ChatWindow({
       <div className="p-4 sticky bottom-0 bg-background">
         <ChatInput
           isLoading={isLoading}
-          onSubmit={(userMessage: string) => {
+          onSubmit={(userMessage: string, imageUrl?: string) => {
+            // For messages with images, we'll attach the imageUrl in a special property
+            const messageContent = imageUrl
+              ? `${userMessage}\n\n[imageUrl](${imageUrl})`
+              : userMessage;
+
             append({
               role: "user",
-              content: userMessage,
-            });
+              content: messageContent,
+              imageUrl: imageUrl, // 保存imageUrl到消息对象，但大模型只会看到content
+            } as MessageWithImage);
           }}
           onStop={stop}
         />

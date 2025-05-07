@@ -8,6 +8,13 @@
       "when": 1746544753585,
       "tag": "0000_lazy_grandmaster",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1746602494953,
+      "tag": "0001_certain_proudstar",
+      "breakpoints": true
     }
   ]
 }
