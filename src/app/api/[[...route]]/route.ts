@@ -6,6 +6,7 @@ import { streamText } from "ai";
 import { deepseek } from "@/lib/ai";
 import * as db from "@/lib/db/service";
 import { DEFAULT_CONVERSATION_TITLE } from "@/lib/constants";
+import { tools } from "@/lib/tools";
 
 // Create Hono instance
 const app = new Hono().basePath("/api");
@@ -109,6 +110,8 @@ app.post("/agent", zValidator("json", messageSchema), async (c) => {
     const result = streamText({
       model: deepseek,
       messages,
+      tools,
+      maxSteps: 3,
       async onFinish(res) {
         await db.createMessage({
           conversationId,

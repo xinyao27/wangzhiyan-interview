@@ -54,6 +54,7 @@ export function ChatWindow({
     api: API_ROUTES.agent,
     initialMessages: convertedMessages,
     id: conversationId || generatedId.current,
+    maxSteps: 5,
   });
 
   const isLoading = status === "streaming" || status === "submitted";

@@ -40,6 +40,20 @@ export function ChatMessage({ message, isLastMessage }: ChatMessageProps) {
       </Avatar>
       <div className="flex-1 space-y-2 overflow-hidden">
         <div className="font-semibold">{isUser ? "You" : "Assistant"}</div>
+
+        {/* waiting for response */}
+        {!isUser && !message.content && (
+          <div className="text-sm flex">
+            <span className="animate-pulse">.</span>
+            <span className="animate-pulse" style={{ animationDelay: "300ms" }}>
+              .
+            </span>
+            <span className="animate-pulse" style={{ animationDelay: "600ms" }}>
+              .
+            </span>
+          </div>
+        )}
+
         <div className="prose prose-sm max-w-none dark:prose-invert break-words">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {message.content}
